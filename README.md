@@ -10,7 +10,7 @@ A package for getting and saving the exchange rate in the project.
         ...
         {
             "type": "vcs",
-            "url": "git@github.com:ShipperDev/ShipperExchangeRate.gits"
+            "url": "https://github.com/ShipperDev/ShipperExchangeRate.git"
         },
         ...
     ],
