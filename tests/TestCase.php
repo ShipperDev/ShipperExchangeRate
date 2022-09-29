@@ -1,6 +1,6 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Tests;
+namespace ShipperDev\ShipperExchangeRate\Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

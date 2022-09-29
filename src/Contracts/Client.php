@@ -1,6 +1,6 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Contracts;
+namespace ShipperDev\ShipperExchangeRate\Contracts;
 
 use Illuminate\Http\Client\Response;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate;
+namespace ShipperDev\ShipperExchangeRate;
 
-use EgoDigital\ShipperExchangeRate\Contracts\Client;
-use EgoDigital\ShipperExchangeRate\Clients\ExchangeRates;
+use ShipperDev\ShipperExchangeRate\Contracts\Client;
+use ShipperDev\ShipperExchangeRate\Clients\ExchangeRates;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -25,6 +25,11 @@ class ShipperExchangeRate
                 ['from', $from],
                 ['to', $to],
             ])->value('rate') ?? 0;
+    }
+
+    public function convert(float $value, string $from, string $to): float
+    {
+        return $value * $this->getRate($from, $to);
     }
 
     public function storeRate(string $from, string $to, float $rate): bool

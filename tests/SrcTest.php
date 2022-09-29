@@ -1,8 +1,8 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Tests;
+namespace ShipperDev\ShipperExchangeRate\Tests;
 
-use EgoDigital\ShipperExchangeRate\ShipperExchangeRate;
+use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +22,18 @@ final class SrcTest extends TestCase
         $service = new ShipperExchangeRate();
         $rate = $service->getRate('EUR', 'USD');
         $this->assertTrue($rate > 0);
+    }
+
+    /**
+     * @depends test_command
+     * @return void
+     */
+    public function test_convert(): void
+    {
+        $service = new ShipperExchangeRate();
+        $rate = $service->getRate('EUR', 'USD');
+        $result = $service->convert(1, 'EUR', 'USD');
+        $this->assertEquals($rate, $result);
     }
 
     public function test_command(): void

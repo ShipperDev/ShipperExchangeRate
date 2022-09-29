@@ -1,8 +1,8 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Tests;
+namespace ShipperDev\ShipperExchangeRate\Tests;
 
-use EgoDigital\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider;
+use ShipperDev\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider;
 use Illuminate\Foundation\Application;
 
 trait CreatesApplication

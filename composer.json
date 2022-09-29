@@ -1,19 +1,26 @@
 {
-    "name": "ego-digital/shipper-exchange-rate",
-    "autoload": {
-        "psr-4": {
-            "EgoDigital\\ShipperExchangeRate\\": "src/",
-            "EgoDigital\\ShipperExchangeRate\\Tests\\": "tests/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Alexey Krivoshapko",
-            "email": "krivoshapko.alexey@gmail.com"
-        }
-    ],
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "laravel/laravel": "^9.3"
+  "name": "shipperdev/shipper-exchange-rate",
+  "autoload": {
+    "psr-4": {
+      "ShipperDev\\ShipperExchangeRate\\": "src/",
+      "ShipperDev\\ShipperExchangeRate\\Tests\\": "tests/"
     }
+  },
+  "authors": [
+    {
+      "name": "Alexey Krivoshapko",
+      "email": "krivoshapko.alexey@gmail.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "ShipperDev\\ShipperExchangeRate\\Providers\\ShipperExchangeRateServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "laravel/laravel": "^9.3"
+  }
 }
