@@ -16,7 +16,7 @@ A package for getting and saving the exchange rate in the project.
     ],
 
 ### Install package:
-    composer require ego-digital/shipper-exchange-rate
+    composer require ShipperDev/shipper-exchange-rate
 
 ### Add provider:
 
