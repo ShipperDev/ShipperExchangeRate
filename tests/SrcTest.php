@@ -1,8 +1,8 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Tests;
+namespace ShipperDev\ShipperExchangeRate\Tests;
 
-use EgoDigital\ShipperExchangeRate\ShipperExchangeRate;
+use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 

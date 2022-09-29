@@ -1,8 +1,8 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Providers;
+namespace ShipperDev\ShipperExchangeRate\Providers;
 
-use EgoDigital\ShipperExchangeRate\Console\Commands\FetchRatesCommand;
+use ShipperDev\ShipperExchangeRate\Console\Commands\FetchRatesCommand;
 use Illuminate\Support\ServiceProvider;
 
 class ShipperExchangeRateServiceProvider extends ServiceProvider

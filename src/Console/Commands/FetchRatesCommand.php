@@ -1,8 +1,8 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Console\Commands;
+namespace ShipperDev\ShipperExchangeRate\Console\Commands;
 
-use EgoDigital\ShipperExchangeRate\ShipperExchangeRate;
+use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
 use Illuminate\Console\Command;
 
 class FetchRatesCommand extends Command

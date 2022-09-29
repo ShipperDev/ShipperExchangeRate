@@ -2,8 +2,8 @@
   "name": "ego-digital/shipper-exchange-rate",
   "autoload": {
     "psr-4": {
-      "EgoDigital\\ShipperExchangeRate\\": "src/",
-      "EgoDigital\\ShipperExchangeRate\\Tests\\": "tests/"
+      "ShipperDev\\ShipperExchangeRate\\": "src/",
+      "ShipperDev\\ShipperExchangeRate\\Tests\\": "tests/"
     }
   },
   "authors": [
@@ -15,7 +15,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "EgoDigital\\ShipperExchangeRate\\Providers\\ShipperExchangeRateServiceProvider"
+        "ShipperDev\\ShipperExchangeRate\\Providers\\ShipperExchangeRateServiceProvider"
       ]
     }
   },

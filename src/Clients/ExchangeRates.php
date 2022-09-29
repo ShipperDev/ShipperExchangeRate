@@ -1,8 +1,8 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate\Clients;
+namespace ShipperDev\ShipperExchangeRate\Clients;
 
-use EgoDigital\ShipperExchangeRate\Contracts\Client;
+use ShipperDev\ShipperExchangeRate\Contracts\Client;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Exception;

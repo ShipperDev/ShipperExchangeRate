@@ -20,7 +20,7 @@ A package for getting and saving the exchange rate in the project.
 
 ### Add provider:
 
-    \EgoDigital\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider::class,
+    \ShipperDev\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider::class,
     to
     config/app.php file in 'providers' section
 
@@ -46,7 +46,7 @@ Optional:
 
 ## Usage
 
-    use EgoDigital\ShipperExchangeRate\ShipperExchangeRate;
+    use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
     
     ...
     

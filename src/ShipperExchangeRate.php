@@ -1,9 +1,9 @@
 <?php
 
-namespace EgoDigital\ShipperExchangeRate;
+namespace ShipperDev\ShipperExchangeRate;
 
-use EgoDigital\ShipperExchangeRate\Contracts\Client;
-use EgoDigital\ShipperExchangeRate\Clients\ExchangeRates;
+use ShipperDev\ShipperExchangeRate\Contracts\Client;
+use ShipperDev\ShipperExchangeRate\Clients\ExchangeRates;
 use Illuminate\Support\Facades\DB;
 use Exception;
 

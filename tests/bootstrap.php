@@ -1,6 +1,6 @@
 <?php
 
-use EgoDigital\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider;
+use ShipperDev\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider;
 use Illuminate\Support\Facades\Artisan;
 
 require __DIR__.'/../vendor/autoload.php';
