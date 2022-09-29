@@ -1,5 +1,5 @@
 {
-  "name": "shipper-dev/shipper-exchange-rate",
+  "name": "shipperdev/shipper-exchange-rate",
   "autoload": {
     "psr-4": {
       "ShipperDev\\ShipperExchangeRate\\": "src/",
