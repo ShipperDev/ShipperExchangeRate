@@ -27,6 +27,11 @@ class ShipperExchangeRate
             ])->value('rate') ?? 0;
     }
 
+    public function convert(float $value, string $from, string $to): float
+    {
+        return $value * $this->getRate($from, $to);
+    }
+
     public function storeRate(string $from, string $to, float $rate): bool
     {
         return DB::table('shipper_exchange_rates')->updateOrInsert([

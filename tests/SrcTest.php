@@ -24,6 +24,18 @@ final class SrcTest extends TestCase
         $this->assertTrue($rate > 0);
     }
 
+    /**
+     * @depends test_command
+     * @return void
+     */
+    public function test_convert(): void
+    {
+        $service = new ShipperExchangeRate();
+        $rate = $service->getRate('EUR', 'USD');
+        $result = $service->convert(1, 'EUR', 'USD');
+        $this->assertEquals($rate, $result);
+    }
+
     public function test_command(): void
     {
         Artisan::call('shipper-exchange-rate:fetch');
