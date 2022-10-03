@@ -18,12 +18,6 @@ A package for getting and saving the exchange rate in the project.
 ### Install package:
     composer require shipperdev/shipper-exchange-rate
 
-### Add provider:
-
-    \ShipperDev\ShipperExchangeRate\Providers\ShipperExchangeRateServiceProvider::class,
-    to
-    config/app.php file in 'providers' section
-
 ### Publish config and migration:
 
     php artisan vendor:publish --tag=shipper-exchange-rate
@@ -36,7 +30,7 @@ A package for getting and saving the exchange rate in the project.
 
 Require:
 
-    EXCHANGE_RATES_API_URL=
+    EXCHANGE_RATES_API_URL="https://api.apilayer.com"
     EXCHANGE_RATES_API_TOKEN=
 
 Optional:

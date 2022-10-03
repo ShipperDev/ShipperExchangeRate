@@ -4,6 +4,7 @@ namespace ShipperDev\ShipperExchangeRate;
 
 use ShipperDev\ShipperExchangeRate\Contracts\Client;
 use ShipperDev\ShipperExchangeRate\Clients\ExchangeRates;
+use ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -19,14 +20,26 @@ class ShipperExchangeRate
         $this->mapCurrencies();
     }
 
+    /**
+     * @throws \ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException
+     */
     public function getRate(string $from, string $to): float
     {
-        return DB::table('shipper_exchange_rates')->where([
-                ['from', $from],
-                ['to', $to],
-            ])->value('rate') ?? 0;
+        $rate = DB::table('shipper_exchange_rates')->where([
+            ['from', $from],
+            ['to', $to],
+        ])->value('rate');
+
+        if (is_null($rate)) {
+            throw new RatePairNotFoundException();
+        }
+
+        return  $rate;
     }
 
+    /**
+     * @throws \ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException
+     */
     public function convert(float $value, string $from, string $to): float
     {
         if ($from == $to) {
