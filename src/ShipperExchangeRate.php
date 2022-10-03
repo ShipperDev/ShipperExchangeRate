@@ -4,7 +4,7 @@ namespace ShipperDev\ShipperExchangeRate;
 
 use ShipperDev\ShipperExchangeRate\Contracts\Client;
 use ShipperDev\ShipperExchangeRate\Clients\ExchangeRates;
-use ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException
+use ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -56,6 +56,8 @@ class ShipperExchangeRate
             'to' => $to,
         ], [
             'rate' => $rate,
+            'created_at' =>  \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now()
         ]);
     }
 
