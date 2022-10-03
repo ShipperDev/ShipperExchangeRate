@@ -31,7 +31,7 @@ class ShipperExchangeRate
         ])->value('rate');
 
         if (is_null($rate)) {
-            throw new RatePairNotFoundException();
+            throw new RatePairNotFoundException($from, $to);
         }
 
         return  $rate;
