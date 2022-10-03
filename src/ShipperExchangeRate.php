@@ -29,6 +29,10 @@ class ShipperExchangeRate
 
     public function convert(float $value, string $from, string $to): float
     {
+        if ($from == $to) {
+            return $value;
+        }
+        
         return $value * $this->getRate($from, $to);
     }
 
