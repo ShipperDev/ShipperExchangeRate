@@ -18,6 +18,6 @@ class RatePairNotFoundException extends \Exception
             'from' => $from,
             'to'   => $to
         ]);
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code = 500, $previous);
     }
 }
