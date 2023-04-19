@@ -48,11 +48,12 @@ class ShipperExchangeRate
     {
         $rate = $this->retrieveRate($from, $to);
         if (is_null($rate)) {
-            $this->fetchCurrencyRates($from, [$to]);
-            $rate = $this->retrieveRate($from, $to);
-            $this->callAutoFetchCallback($from, $to);
+            $rates = $this->fetchCurrencyRates($from, [$to]);
+            $rate = collect($rates)->firstWhere('to', $to)?->rate;
             if (is_null($rate)) {
                 throw new RatePairNotFoundException($from, $to);
+            } else {
+                $this->callAutoFetchCallback($from, $to);
             }
         }
 
@@ -126,11 +127,7 @@ class ShipperExchangeRate
         $from = config('shipper-exchange-rate.from');
         $to = config('shipper-exchange-rate.to');
         foreach ($from as $base) {
-            foreach ($to as $currency) {
-                if ($base !== $currency) {
-                    $this->currencies[$base][] = $currency;
-                }
-            }
+            $this->currencies[$base] = array_diff($to, [$base]);
         }
     }
 
@@ -147,19 +144,28 @@ class ShipperExchangeRate
     /**
      * @param string $base
      * @param array $currencies
-     * @return void
+     * @return array
      * @throws Exception
      */
-    public function fetchCurrencyRates(string $base, array $currencies): void
+    public function fetchCurrencyRates(string $base, array $currencies): array
     {
-        $result = $this->client->latest($base)->json();
-        if ($base === $result['base']) {
+        $rates = [];
+        $response = $this->client->latest($base)->json();
+        if ($base === $response['base']) {
             foreach ($currencies as $currency) {
-                $rate = Arr::get($result['rates'], $currency);
+                $rate = Arr::get($response['rates'], $currency);
                 if ($rate) {
-                    $this->storeRate($base, $currency, $result['rates'][$currency]);
+                    $result = $this->storeRate($base, $currency, $rate);
+                    if ($result) {
+                        $rates[] = (object) [
+                            'from' => $base,
+                            'to' => $currency,
+                            'rate' => $rate,
+                        ];
+                    }
                 }
             }
         }
+        return $rates;
     }
 }

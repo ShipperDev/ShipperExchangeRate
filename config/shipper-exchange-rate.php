@@ -5,7 +5,7 @@ return [
 
     'api_url' => env('EXCHANGE_RATES_API_URL', null),
 
-    'from' => ['EUR', 'USD', 'ILS'],
+    'from' => env('SHIPPER_EXCHANGE_RATE_FROM', ['EUR', 'USD', 'ILS']),
 
-    'to' => ['EUR', 'USD'],
+    'to' => env('SHIPPER_EXCHANGE_RATE_FROM', ['EUR', 'USD']),
 ];
