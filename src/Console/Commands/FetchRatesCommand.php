@@ -2,6 +2,7 @@
 
 namespace ShipperDev\ShipperExchangeRate\Console\Commands;
 
+use Exception;
 use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
 use Illuminate\Console\Command;
 
@@ -24,9 +25,11 @@ class FetchRatesCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @param ShipperExchangeRate $service
+     * @return void
+     * @throws Exception
      */
-    public function handle(ShipperExchangeRate $service)
+    public function handle(ShipperExchangeRate $service): void
     {
         $service->fetchRates();
     }

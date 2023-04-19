@@ -2,43 +2,68 @@
 
 namespace ShipperDev\ShipperExchangeRate\Tests;
 
-use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException;
+use ShipperDev\ShipperExchangeRate\ShipperExchangeRate;
 
 final class SrcTest extends TestCase
 {
-    public function test_default(): void
-    {
-        $this->assertTrue(true);
-    }
+    use RefreshDatabase;
 
     /**
-     * @depends test_command
+     * @test
      * @return void
+     * @throws RatePairNotFoundException
      */
-    public function test_client(): void
+    public function get_rate_methods(): void
     {
         $service = new ShipperExchangeRate();
+        $service->storeRate('EUR', 'USD', 1.2);
         $rate = $service->getRate('EUR', 'USD');
         $this->assertTrue($rate > 0);
     }
 
     /**
-     * @depends test_command
+     * @test
      * @return void
+     * @throws RatePairNotFoundException
      */
-    public function test_convert(): void
+    public function convert_method(): void
     {
         $service = new ShipperExchangeRate();
+        $service->storeRate('EUR', 'USD', 1.1999999);
         $rate = $service->getRate('EUR', 'USD');
         $result = $service->convert(1, 'EUR', 'USD');
         $this->assertEquals($rate, $result);
     }
 
-    public function test_command(): void
+    /**
+     * @test
+     * @return void
+     */
+    public function command(): void
     {
         Artisan::call('shipper-exchange-rate:fetch');
-        $this->assertTrue(DB::table('shipper_exchange_rates')->count() > 0);
+        $this->assertEquals(4, DB::table('shipper_exchange_rates')->count());
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws RatePairNotFoundException
+     */
+    public function auto_add_currency(): void
+    {
+        $service = new ShipperExchangeRate();
+        $this->assertEquals(0, DB::table('shipper_exchange_rates')->count());
+        global $test;
+        $rate = $service->setAutoFetchCallback(function(...$args) {
+            global $test;
+            $test = $args;
+        })->getRate('UAH', 'USD');
+        $this->assertGreaterThan(0, $rate);
+        $this->assertEquals(['UAH', 'USD'], $test);
     }
 }
