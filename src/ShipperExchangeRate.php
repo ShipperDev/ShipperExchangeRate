@@ -2,6 +2,8 @@
 
 namespace ShipperDev\ShipperExchangeRate;
 
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use ShipperDev\ShipperExchangeRate\Contracts\Client;
 use ShipperDev\ShipperExchangeRate\Clients\ExchangeRates;
 use ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException;
@@ -14,6 +16,11 @@ class ShipperExchangeRate
 
     protected Client $client;
 
+    protected mixed $auto_fetch_callback = null;
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->client = new ExchangeRates();
@@ -21,34 +28,83 @@ class ShipperExchangeRate
     }
 
     /**
-     * @throws \ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException
+     * @param callable $callback
+     * @return ShipperExchangeRate
+     */
+    public function setAutoFetchCallback(callable $callback): self
+    {
+        $this->auto_fetch_callback = $callback;
+        return $this;
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @return float
+     * @throws RatePairNotFoundException
+     * @throws Exception
      */
     public function getRate(string $from, string $to): float
     {
-        $rate = DB::table('shipper_exchange_rates')->where([
-            ['from', $from],
-            ['to', $to],
-        ])->value('rate');
-
+        $rate = $this->retrieveRate($from, $to);
         if (is_null($rate)) {
-            throw new RatePairNotFoundException($from, $to);
+            $this->fetchCurrencyRates($from, [$to]);
+            $rate = $this->retrieveRate($from, $to);
+            $this->callAutoFetchCallback($from, $to);
+            if (is_null($rate)) {
+                throw new RatePairNotFoundException($from, $to);
+            }
         }
 
         return  $rate;
     }
 
     /**
-     * @throws \ShipperDev\ShipperExchangeRate\Exceptions\RatePairNotFoundException
+     * @param ...$args
+     * @return void
+     */
+    protected function callAutoFetchCallback(...$args): void
+    {
+        if (is_callable($this->auto_fetch_callback)) {
+            call_user_func($this->auto_fetch_callback, ...$args);
+        }
+    }
+
+    /**
+     * @param string $from
+     * @param string $to
+     * @return float|null
+     */
+    public function retrieveRate(string $from, string $to): ?float
+    {
+        return DB::table('shipper_exchange_rates')->where([
+            ['from', $from],
+            ['to', $to],
+        ])->value('rate');
+    }
+
+    /**
+     * @param float $value
+     * @param string $from
+     * @param string $to
+     * @return float
+     * @throws RatePairNotFoundException
      */
     public function convert(float $value, string $from, string $to): float
     {
         if ($from == $to) {
             return $value;
         }
-        
+
         return $value * $this->getRate($from, $to);
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     * @param float $rate
+     * @return bool
+     */
     public function storeRate(string $from, string $to, float $rate): bool
     {
         return DB::table('shipper_exchange_rates')->updateOrInsert([
@@ -56,18 +112,25 @@ class ShipperExchangeRate
             'to' => $to,
         ], [
             'rate' => $rate,
-            'created_at' =>  \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now()
+            'created_at' =>  Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
     }
 
+    /**
+     * @return void
+     */
     protected function mapCurrencies(): void
     {
         $this->currencies = [];
-        $pairs_str = str_replace(' ', '', config('shipper-exchange-rate.pairs'));
-        foreach (explode(',', $pairs_str) as $item) {
-            $pair = explode('->', $item);
-            $this->currencies[$pair[0]][] = $pair[1];
+        $from = config('shipper-exchange-rate.from');
+        $to = config('shipper-exchange-rate.to');
+        foreach ($from as $base) {
+            foreach ($to as $currency) {
+                if ($base !== $currency) {
+                    $this->currencies[$base][] = $currency;
+                }
+            }
         }
     }
 
@@ -77,9 +140,23 @@ class ShipperExchangeRate
     public function fetchRates(): void
     {
         foreach ($this->currencies as $base => $currencies) {
-            $result = $this->client->latest($base)->json();
+            $this->fetchCurrencyRates($base, $currencies);
+        }
+    }
+
+    /**
+     * @param string $base
+     * @param array $currencies
+     * @return void
+     * @throws Exception
+     */
+    public function fetchCurrencyRates(string $base, array $currencies): void
+    {
+        $result = $this->client->latest($base)->json();
+        if ($base === $result['base']) {
             foreach ($currencies as $currency) {
-                if ($base == $result['base'] && key_exists($currency, $result['rates'])) {
+                $rate = Arr::get($result['rates'], $currency);
+                if ($rate) {
                     $this->storeRate($base, $currency, $result['rates'][$currency]);
                 }
             }

@@ -33,10 +33,6 @@ Require:
     EXCHANGE_RATES_API_URL="https://api.apilayer.com"
     EXCHANGE_RATES_API_TOKEN=
 
-Optional:
-    
-    SHIPPER_EXCHANGE_RATE_PAIRS="EUR->USD,EUR->ILS,USD->ILS"
-
 
 ## Usage
 
