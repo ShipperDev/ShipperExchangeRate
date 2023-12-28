@@ -9,5 +9,5 @@ return [
 
     'to' => env('SHIPPER_EXCHANGE_RATE_TO', ['EUR', 'USD']),
 
-    'markup' => env('SHIPPER_EXCHANGE_RATE_MARKUP', 0),
+    'markup_percent' => env('SHIPPER_EXCHANGE_RATE_MARKUP_PERCENT', 0),
 ];

@@ -65,7 +65,7 @@ class ShipperExchangeRate
      */
     public function getRateWithMarkup(float $rate): float
     {
-        $markup = config('shipper-exchange-rate.markup');
+        $markup = config('shipper-exchange-rate.markup_percent', 0);
         return $rate + ($rate * $markup / 100);
     }
 

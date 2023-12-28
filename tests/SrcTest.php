@@ -75,7 +75,7 @@ final class SrcTest extends TestCase
     public function auto_add_currency_with_markup(): void
     {
         $exchange_rate_markup = 7.25;
-        config(['shipper-exchange-rate.markup' => $exchange_rate_markup]);
+        config(['shipper-exchange-rate.markup_percent' => $exchange_rate_markup]);
         $service = new ShipperExchangeRate();
         $this->assertEquals(0, DB::table('shipper_exchange_rates')->count());
         $rate = $service->getRate('UAH', 'USD');
