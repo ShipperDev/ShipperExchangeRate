@@ -8,4 +8,6 @@ return [
     'from' => env('SHIPPER_EXCHANGE_RATE_FROM', ['EUR', 'USD', 'ILS']),
 
     'to' => env('SHIPPER_EXCHANGE_RATE_TO', ['EUR', 'USD']),
+
+    'markup' => env('SHIPPER_EXCHANGE_RATE_MARKUP', 0),
 ];

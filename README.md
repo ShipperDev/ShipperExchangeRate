@@ -37,6 +37,7 @@ Optional:
     
     SHIPPER_EXCHANGE_RATE_FROM="EUR,USD"
     SHIPPER_EXCHANGE_RATE_TO="EUR,USD"
+    SHIPPER_EXCHANGE_RATE_MARKUP=5 // in percent
 
 
 ## Usage
