@@ -56,8 +56,17 @@ class ShipperExchangeRate
                 $this->callAutoFetchCallback($from, $to);
             }
         }
+        return  $this->getRateWithMarkup($rate);
+    }
 
-        return  $rate;
+    /**
+     * @param float $rate
+     * @return float
+     */
+    public function getRateWithMarkup(float $rate): float
+    {
+        $markup = config('shipper-exchange-rate.markup_percent', 0);
+        return $rate + ($rate * $markup / 100);
     }
 
     /**
