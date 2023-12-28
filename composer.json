@@ -1,6 +1,5 @@
 {
   "name": "shipperdev/shipper-exchange-rate",
-  "version": "1.0.0",
   "autoload": {
     "psr-4": {
       "ShipperDev\\ShipperExchangeRate\\": "src/",
